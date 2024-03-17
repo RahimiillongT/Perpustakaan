@@ -20,8 +20,11 @@ public class FormPeminjaman extends javax.swing.JFrame {
         private javax.swing.JTable jtBukuDipinjam;
         // End of variables declaration//GEN-END:variables
 
+        private PeminjamanController peminjamanController;
+
         public FormPeminjaman() {
                 initComponents();
+                this.peminjamanController = new PeminjamanController();
         }
 
         public void tampilkan() {
@@ -246,6 +249,8 @@ public class FormPeminjaman extends javax.swing.JFrame {
 
         private void jButtonKonfirmasiActionPerformed(ActionEvent evt) {
                 // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'jButtonKonfirmasiActionPerformed'");
+                
+                peminjamanController.konfirmasiBukuDipinjam(peminjamanController.getBukuDipinjam());
+                
         }
 }

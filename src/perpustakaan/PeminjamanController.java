@@ -3,6 +3,11 @@ package perpustakaan;
 import java.util.ArrayList;
 
 public class PeminjamanController {
+    private PeminjamanManager peminjamanManager;
+
+    public PeminjamanController() {
+        this.peminjamanManager = new PeminjamanManager();
+    }
 
     private ArrayList<Buku> bukuDipinjam = new ArrayList<>();
 
@@ -49,6 +54,21 @@ public class PeminjamanController {
                 Perpustakaan.formPeminjaman.displayBukuDipinjam(bukuDipinjam);
                 return; // Keluar dari method setelah menghapus buku
             }
+        }
+    }
+
+    public void konfirmasiBukuDipinjam(ArrayList<Buku> bukuDipinjamCollection){
+        boolean status = peminjamanManager.save(bukuDipinjamCollection);
+        if (status) {
+            DialogUI dialogUI = new DialogUI("Peminjaman telah dikonfirmasi");
+            dialogUI.pack();
+            dialogUI.setLocationRelativeTo(null);
+            dialogUI.setVisible(true);
+        } else {
+            DialogUI dialogUI = new DialogUI("Gagal menyimpan buku yang dipinjam");
+            dialogUI.pack();
+            dialogUI.setLocationRelativeTo(null);
+            dialogUI.setVisible(true);
         }
     }
 
