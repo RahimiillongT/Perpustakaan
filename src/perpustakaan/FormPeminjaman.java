@@ -1,8 +1,10 @@
 package perpustakaan;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
 
 public class FormPeminjaman extends javax.swing.JFrame {
 
@@ -162,17 +164,84 @@ public class FormPeminjaman extends javax.swing.JFrame {
         private void jButtonCariMouseClicked(java.awt.event.MouseEvent evt) {
                 // TODO Auto-generated method stub
                 String judul = jTextFieldJudul.getText();
-                Perpustakaan.controllerPencarian.cariBuku(judul);
+                Perpustakaan.controllerPeminjaman.cariBuku(judul);
+        }
+
+        public void display(ArrayList<Buku> bukuList) {
+                Object[] kolom = { "Judul" };
+                DefaultTableModel model = new DefaultTableModel(kolom, 0);
+
+                for (Buku buku : bukuList) {
+                        Object[] baris = { buku.judul };
+                        model.addRow(baris);
+                }
+
+                jtBuku.setModel(model);
         }
 
         private void jButtonPinjamActionPerformed(ActionEvent evt) {
                 // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'jButtonPinjamActionPerformed'");
+                int selectRow = jtBuku.getSelectedRow();
+                try {
+                        if (selectRow != -1) {
+                                String judul = (String) jtBuku.getValueAt(selectRow, 0);
+                                FormLamaPeminjaman formLamaPeminjaman = new FormLamaPeminjaman(this, true);
+                                formLamaPeminjaman.setLocationRelativeTo(this);
+                                formLamaPeminjaman.setVisible(true);
+
+                                if (formLamaPeminjaman.isOkPressed()) {
+                                        int lamaPeminjaman = formLamaPeminjaman.getLamaPeminjaman();
+                                        Buku buku = new Buku(judul, lamaPeminjaman);
+                                        buku.setLamaPeminjaman(lamaPeminjaman);
+                                        Perpustakaan.controllerPeminjaman.pinjamBuku(buku);
+                                }
+
+                                jtBuku.clearSelection();
+                        } else {
+                                DialogUI dialogUI = new DialogUI("Pilih buku terlebih dahulu");
+                                dialogUI.pack();
+                                dialogUI.setLocationRelativeTo(null);
+                                dialogUI.setVisible(true);
+                        }
+                } catch (Exception ex) {
+                        DialogUI dialogUI = new DialogUI("Connection Error");
+                        dialogUI.pack();
+                        dialogUI.setLocationRelativeTo(null);
+                        dialogUI.setVisible(true);
+                }
+        }
+
+        public void displayBukuDipinjam(ArrayList<Buku> bukuDipinjam) {
+                Object[] kolom = { "Judul", "Lama Peminjaman (Hari)" };
+                DefaultTableModel model = new DefaultTableModel(kolom, 0);
+
+                for (Buku buku : bukuDipinjam) {
+                        Object[] baris = { buku.getJudul(), buku.getLamaPeminjaman() };
+                        model.addRow(baris);
+                }
+
+                jtBukuDipinjam.setModel(model);
         }
 
         private void jButtonBatalActionPerformed(ActionEvent evt) {
                 // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'jButtonBatalActionPerformed'");
+                try {
+                        int selectRow = jtBukuDipinjam.getSelectedRow();
+                        if (selectRow != -1) {
+                                String judul = (String) jtBukuDipinjam.getValueAt(selectRow, 0);
+                                Perpustakaan.controllerPeminjaman.hapusBuku(judul);
+                        } else {
+                                DialogUI dialogUI = new DialogUI("Pilih buku  yang akan dihapus terlebih dahulu");
+                                dialogUI.pack();
+                                dialogUI.setLocationRelativeTo(null);
+                                dialogUI.setVisible(true);
+                        }
+                } catch (Exception ex) {
+                        DialogUI dialogUI = new DialogUI("Connection Error");
+                        dialogUI.pack();
+                        dialogUI.setLocationRelativeTo(null);
+                        dialogUI.setVisible(true);
+                }
         }
 
         private void jButtonKonfirmasiActionPerformed(ActionEvent evt) {
