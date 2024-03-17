@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class FormPeminjaman extends javax.swing.JFrame {
@@ -224,6 +227,9 @@ public class FormPeminjaman extends javax.swing.JFrame {
                 }
 
                 jtBukuDipinjam.setModel(model);
+                DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+                centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+                jtBukuDipinjam.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         }
 
         private void jButtonBatalActionPerformed(ActionEvent evt) {
@@ -232,7 +238,12 @@ public class FormPeminjaman extends javax.swing.JFrame {
                         int selectRow = jtBukuDipinjam.getSelectedRow();
                         if (selectRow != -1) {
                                 String judul = (String) jtBukuDipinjam.getValueAt(selectRow, 0);
-                                Perpustakaan.controllerPeminjaman.hapusBuku(judul);
+                                int choice = JOptionPane.showConfirmDialog(this,
+                                                "Apakah anda yakin menghapus buku ini dari daftar Peminjaman?",
+                                                "Konfirmasi", JOptionPane.YES_NO_OPTION);
+                                if (choice == JOptionPane.YES_OPTION) {
+                                        Perpustakaan.controllerPeminjaman.hapusBuku(judul);
+                                }
                         } else {
                                 DialogUI dialogUI = new DialogUI("Pilih buku  yang akan dihapus terlebih dahulu");
                                 dialogUI.pack();
@@ -249,8 +260,8 @@ public class FormPeminjaman extends javax.swing.JFrame {
 
         private void jButtonKonfirmasiActionPerformed(ActionEvent evt) {
                 // TODO Auto-generated method stub
-                
+
                 peminjamanController.konfirmasiBukuDipinjam(peminjamanController.getBukuDipinjam());
-                
+
         }
 }

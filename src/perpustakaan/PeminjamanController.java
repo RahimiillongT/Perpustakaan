@@ -45,19 +45,16 @@ public class PeminjamanController {
     }
 
     public void hapusBuku(String judul) {
-        // Cari objek Buku dengan judul yang sesuai
         for (Buku buku : bukuDipinjam) {
             if (buku.getJudul().equals(judul)) {
-                // Hapus objek Buku dari ArrayList
                 bukuDipinjam.remove(buku);
-                // Perbarui tampilan
                 Perpustakaan.formPeminjaman.displayBukuDipinjam(bukuDipinjam);
-                return; // Keluar dari method setelah menghapus buku
+                return;
             }
         }
     }
 
-    public void konfirmasiBukuDipinjam(ArrayList<Buku> bukuDipinjamCollection){
+    public void konfirmasiBukuDipinjam(ArrayList<Buku> bukuDipinjamCollection) {
         boolean status = peminjamanManager.save(bukuDipinjamCollection);
         if (status) {
             DialogUI dialogUI = new DialogUI("Peminjaman telah dikonfirmasi");
