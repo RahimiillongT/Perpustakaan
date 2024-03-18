@@ -3,9 +3,10 @@ package perpustakaan;
 import java.util.ArrayList;
 
 public class PeminjamanManager {
-    
+
     public boolean save(ArrayList<Buku> bukuDipinjamCollection) {
         try {
+
             for (Buku bukuDipinjam : bukuDipinjamCollection) {
                 bukuDipinjamCollection.add(bukuDipinjam);
             }
@@ -15,7 +16,5 @@ public class PeminjamanManager {
             return false;
         }
     }
-
-
 
 }

@@ -41,6 +41,10 @@ public class PeminjamanController {
 
     public void pinjamBuku(Buku buku) {
         bukuDipinjam.add(buku);
+        DialogUI dialogUI = new DialogUI("Buku yang Dipinjam " + getBukuDipinjam().size());
+        dialogUI.pack();
+        dialogUI.setLocationRelativeTo(null);
+        dialogUI.setVisible(true);
         Perpustakaan.formPeminjaman.displayBukuDipinjam(bukuDipinjam);
     }
 
@@ -56,13 +60,9 @@ public class PeminjamanController {
 
     public void konfirmasiBukuDipinjam(ArrayList<Buku> bukuDipinjamCollection) {
         boolean status = peminjamanManager.save(bukuDipinjamCollection);
+
         if (status) {
-            DialogUI dialogUI = new DialogUI("Peminjaman telah dikonfirmasi");
-            dialogUI.pack();
-            dialogUI.setLocationRelativeTo(null);
-            dialogUI.setVisible(true);
-        } else {
-            DialogUI dialogUI = new DialogUI("Gagal menyimpan buku yang dipinjam");
+            DialogUI dialogUI = new DialogUI("Peminjaman buku telah dikonfirmasi");
             dialogUI.pack();
             dialogUI.setLocationRelativeTo(null);
             dialogUI.setVisible(true);

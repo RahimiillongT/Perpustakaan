@@ -260,8 +260,21 @@ public class FormPeminjaman extends javax.swing.JFrame {
 
         private void jButtonKonfirmasiActionPerformed(ActionEvent evt) {
                 // TODO Auto-generated method stub
+                if (Perpustakaan.controllerPeminjaman.getBukuDipinjam().isEmpty()) {
+                        DialogUI dialogUI = new DialogUI("Daftar peminjaman masih kosong");
+                        dialogUI.pack();
+                        dialogUI.setLocationRelativeTo(null);
+                        dialogUI.setVisible(true);
+                } else if (Perpustakaan.controllerPeminjaman.getBukuDipinjam().size() > 10) {
+                        DialogUI dialogUI = new DialogUI("Jumlah buku yang dipinjam melebihi batas maksimal 10 buku!");
+                        dialogUI.pack();
+                        dialogUI.setLocationRelativeTo(null);
+                        dialogUI.setVisible(true);
+                } else {
+                        PeminjamanController peminjamanController = this.peminjamanController;
 
-                peminjamanController.konfirmasiBukuDipinjam(peminjamanController.getBukuDipinjam());
+                        peminjamanController.konfirmasiBukuDipinjam(peminjamanController.getBukuDipinjam());
+                }
 
         }
 }
